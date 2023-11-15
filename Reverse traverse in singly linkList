@@ -1,0 +1,42 @@
+
+#include <stdio.h>
+#include <stdlib.h>
+
+struct node{
+    int data;
+    struct node *next;
+};
+
+void reverseTravarse(struct node *ptr){
+    while(ptr == NULL){
+        return;
+    }
+    reverseTravarse(ptr->next);
+    printf("data: %d\n",ptr->data);
+}
+
+
+struct node *head,*newnode,*temp;
+
+int main(){
+    int i=0,n;
+    head=NULL;
+    printf("How many nodes do you want?\n");
+    scanf("%d",&n);
+    for(i=0;i<n;i++){
+        newnode=(struct node*)malloc(sizeof(struct node));
+        printf("Enter data : ");
+        scanf("%d",&newnode->data);
+        newnode->next=NULL;
+        if(head==NULL){
+            head=temp=newnode;
+        }
+        else{
+            temp->next=newnode;
+            temp=newnode;
+        }
+    }
+    temp = head;
+    reverseTravarse(head);
+    return 0;
+}
