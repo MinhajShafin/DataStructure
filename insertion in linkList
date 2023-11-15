@@ -1,0 +1,72 @@
+#include<stdio.h>
+#include<stdlib.h>
+
+struct Node{
+    int data;
+    struct Node *next;
+};
+
+struct Node *insertAtBegining(struct Node *head, int data){
+    struct Node *ptr = (struct Node*)malloc(sizeof(struct Node));
+    ptr->next = head;
+    ptr->data = data;
+    return ptr;
+}
+
+struct Node *insertAtIndex(struct Node *head, int data, int index){
+    struct Node *ptr = (struct Node*)malloc(sizeof(struct Node));
+    struct Node *temp;
+    int i=0;
+    while(i!=index-1){
+        temp = temp->next;
+        i++;
+    }
+    ptr->next = temp->next;
+    ptr->data = data;
+    temp->next = ptr;
+
+    return head;
+
+}
+
+struct Node *insertAtEnd(struct Node *head, int data){
+    struct Node *ptr = (struct Node*)malloc(sizeof(struct Node));
+    ptr->data = data;
+    struct Node *temp = head;
+    while(temp->next!=NULL){
+        temp = temp->next;
+    }
+    temp->next = ptr;
+    ptr->next = NULL;
+    return head;
+}
+
+void traverse(struct Node *head){
+    while(head!=NULL){
+        printf("%d\n",head->data);
+        head = head->next;
+    }
+}
+
+int main(){
+    struct Node *head,*temp;
+    head = NULL;
+
+    for(int i=0; i<4; i++){
+        struct Node *newNode = (struct Node*)malloc(sizeof(struct Node));
+        newNode->data = i+1;
+        newNode->next = NULL;
+        if(head == NULL){
+            head = temp = newNode;
+        }
+        else{
+            temp->next = newNode;
+            temp = newNode;
+        }
+    }
+    temp = head;
+    head = insertAtBegining(head,69);
+    head = insertAtIndex(head,78,2);
+    head = insertAtEnd(head, 42);
+    traverse(head);
+}
