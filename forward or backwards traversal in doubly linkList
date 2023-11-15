@@ -1,0 +1,58 @@
+#include<stdio.h>
+#include<stdlib.h>
+#include<stdint.h>
+
+struct student{
+    uint8_t id;
+    struct student *prev;
+    struct student *next;
+};
+
+void linkTravarse(struct student *node){
+    while(node != NULL){
+        printf("ID number: %d\n",node->id);
+        node = node->next;
+    }
+}
+
+void reverseTravarse(struct student *node){
+    while(node->next != NULL){
+        node = node->next;
+    }
+    while(node != NULL){
+        printf("Data: %d\n", node->id);
+        node = node->prev;
+    }
+}
+
+int main(){
+
+    struct student *head, *temp;
+    uint8_t i=0,n;
+
+    head = NULL;
+
+    printf("Number of nodes:\t");
+    scanf("%d",&n);
+
+    for(i=0;i<n;i++){
+        struct student *newNode = (struct student*)malloc(sizeof(struct student));
+        printf("Enter data: ");
+        scanf("%d",&newNode->id);
+        newNode->next = NULL;
+
+        if(head == NULL){
+            newNode->prev = NULL;
+            head = temp = newNode;
+        }
+        else{
+            temp->next = newNode;
+            newNode->prev = temp;
+            temp = newNode;
+        }
+    }
+
+    linkTravarse(head);
+    reverseTravarse(head);
+
+}
