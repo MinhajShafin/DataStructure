@@ -1,0 +1,121 @@
+#include<stdio.h>
+#include<stdlib.h>
+#include<stdint.h>
+
+struct student{
+    uint8_t id;
+    struct student *prev;
+    struct student *next;
+};
+
+struct student *head, *temp;
+uint8_t i=0,n;
+
+struct student *createNode(){
+    head = NULL;
+    for(i=0;i<5;i++){
+        struct student *newNode = (struct student*)malloc(sizeof(struct student));
+        newNode->id = i+1;
+        newNode->next = NULL;
+
+        if(head == NULL){
+            newNode->prev = NULL;
+            head = temp = newNode;
+        }
+        else{
+            temp->next = newNode;
+            newNode->prev = temp;
+            temp = newNode;
+        }
+    }
+    return head;
+}
+
+struct student *insertAtBegining(struct student *head, int id){
+    struct student *ptr = (struct student*)malloc(sizeof(struct student));
+    ptr->next = head;
+    ptr->prev = NULL;
+    ptr->id = id;
+    return ptr;
+}
+
+struct student *insertAtIndex(struct student *head, int index, int id){
+    struct student *ptr = (struct student*)malloc(sizeof(struct student));
+    struct student *temp = head;
+    int i = 0;
+    while(i != index-1){
+        temp = temp->next;
+        i++;
+    }
+    ptr->next = temp->next;
+    ptr->prev = temp;
+    if(temp->next != NULL){
+        temp->next->prev = ptr;
+    }
+    temp->next = ptr;
+    ptr->id = id;
+
+    return head;
+}
+
+struct student *deleteFirst(struct student *head){
+    struct student *ptr = head;
+    head = head->next;
+    free(ptr);
+    return head;
+}
+
+struct student *deleteAtIndex(struct student *head, int index){
+    struct student *p = head;
+    struct student *q = head->next;
+    int i=0;
+    while(i!=index-1 && q != NULL){
+        p = p->next;
+        q = q->next;
+        i++;
+    }
+    if (q != NULL) {
+        p->next = q->next;
+        if (q->next != NULL) {
+            q->next->prev = p;
+        }
+        free(q);
+    }
+    return head;
+}
+
+struct student *updateNode(struct student *head, int position, int newValue) {
+    struct student *temp = head;
+    int count = 0;
+
+    while(temp != NULL) {
+        if(count == position) {
+            temp->id = newValue;
+            break;
+        }
+        temp = temp->next;
+        count++;
+    }
+    return head;
+}
+
+void linkTravarse(struct student *node){
+    while(node != NULL){
+        printf("ID number: %d\n",node->id);
+        node = node->next;
+    }
+}
+
+int main(){
+
+    head = createNode();
+
+    linkTravarse(head);
+    printf("Updated list: \n");
+    //head = insertAtBegining(head, 69);
+    //head = insertAtIndex(head, 3, 13);
+    //head = deleteFirst(head);
+    //head = deleteAtIndex(head, 3);
+    head = updateNode(head, 2, 99);
+    linkTravarse(head);
+}
