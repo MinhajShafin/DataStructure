@@ -1,0 +1,67 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include<stdInt.h>
+ 
+struct Queue *head = NULL;
+struct Queue *tail = NULL;
+ 
+struct Queue
+{
+    int data;
+    struct Queue *next;
+};
+
+void linkTravarse(struct Queue *top){
+    uint8_t i=1;
+    while(top != NULL){
+        printf("Element %d: %d\n",i++,top->data);
+        top = top->next;
+    }
+}
+
+void enqueue(int val)
+{
+    struct Queue *temp = (struct Queue *) malloc(sizeof(struct Queue));
+    if(temp==NULL){
+        printf("Queue is Full");
+    }
+    else{
+        temp->data = val;
+        temp->next = NULL;
+        if(head==NULL){
+            head=tail=temp;
+        }
+        else{
+            tail->next = temp;
+            tail=temp;
+        }
+    }
+}
+ 
+void dequeue()
+{
+    struct Queue *ptr = head;
+    if(head==NULL){
+        printf("Queue is Empty\n");
+        return;
+    }
+    printf("Dequeuing element %d\n",ptr->data);
+    head = head->next;
+    free(ptr);
+
+}
+ 
+int main()
+{
+    enqueue(34);
+    enqueue(4);
+    enqueue(7);
+    enqueue(17);
+    printf("Elements in queue:\n");
+    linkTravarse(head);
+    dequeue();
+    dequeue();
+    printf("\nAfter dequeue:\n");
+    linkTravarse(head);
+    return 0;
+}
