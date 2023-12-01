@@ -1,0 +1,67 @@
+#include<stdio.h>
+#include<stdlib.h>
+
+struct Stack{
+    int data;
+    struct Stack *next;
+};
+
+struct Stack *top = NULL;
+
+void linkTravarse(struct Stack *top){
+    while(top != NULL){
+        printf("Element: %d\n",top->data);
+        top = top->next;
+    }
+}
+
+int isEmpty(struct Stack *top){
+    if(top==NULL){
+        return 1;
+    }   return 0;
+}
+
+int isFull(struct Stack *top){
+    struct Stack *ptr = (struct Stack*)malloc(sizeof(struct Stack));
+    if(ptr == NULL){
+        return 1;
+    }   return 0;
+}
+
+struct Stack *push(struct Stack *top, int value){
+    if(isFull(top)){
+        printf("Stack Overflow!!!\n");
+        return 0;
+    }
+    struct Stack *temp = (struct Stack*)malloc(sizeof(struct Stack));
+    temp->data = value;
+    temp->next = top;
+    top = temp;
+    return top;
+}
+
+void myPop(struct Stack *ptr){
+    if(isEmpty(ptr)){
+        printf("Stack empty :(\n");
+        return;
+    }
+    struct Stack *temp = ptr;
+    top = ptr->next;
+    printf("\nPopped element: %d\n", temp->data);
+    free(temp);
+
+}
+
+int main(){
+    
+    top = push(top, 56);
+    top = push(top, 9);
+    top = push(top, 12);
+
+    printf("Printing Stack:\n");
+    linkTravarse(top);
+    myPop(top);
+    printf("\nPrinting Updated Stack:\n");
+    linkTravarse(top);
+
+}
